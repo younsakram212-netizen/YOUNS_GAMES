@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Youns Games</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Tahoma,sans-serif;background:#070a14;color:#fff}
+header{position:sticky;top:0;z-index:10;background:#0b0f1ceb;backdrop-filter:blur(16px);border-bottom:1px solid #252b42}
+nav{max-width:1200px;margin:auto;padding:14px 18px;display:flex;gap:14px;align-items:center;justify-content:space-between}
+.logo{font-size:24px;font-weight:900}.logo span{color:#8b65ff}
+nav .actions{display:flex;gap:8px;flex-wrap:wrap}.btn,.navbtn{border:0;border-radius:11px;padding:10px 13px;background:#202840;color:#fff;cursor:pointer;text-decoration:none}
+.primary{background:#7c5cff}.hero{max-width:1200px;margin:24px auto;padding:44px 24px;border:1px solid #30385a;border-radius:25px;background:radial-gradient(circle at 15% 20%,#3a327c,transparent 42%),linear-gradient(135deg,#111a35,#130f22)}
+.hero h1{font-size:clamp(34px,7vw,62px);margin:0 0 12px}.hero h1 span{color:#987bff}.hero p{color:#bac2db;line-height:1.8;max-width:720px}
+.search{max-width:1200px;margin:20px auto;padding:0 18px}.search input{width:100%;padding:15px 18px;border-radius:14px;border:1px solid #303852;background:#101627;color:white;font-size:16px;outline:none}
+.tabs{max-width:1200px;margin:18px auto;padding:0 18px;display:flex;gap:8px;overflow:auto}.tabs button{white-space:nowrap}
+main{max-width:1200px;margin:auto;padding:0 18px}.sectiontitle{display:flex;justify-content:space-between;align-items:center;margin:28px 0 15px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:#101624;border:1px solid #252d45;border-radius:18px;overflow:hidden;box-shadow:0 10px 30px #0003}.cover{height:145px;background-size:cover;background-position:center}.info{padding:14px}.info h3{margin:0 0 7px}.muted{color:#8993ad}.price{font-weight:900;color:#9b83ff;font-size:18px}.row{display:flex;gap:8px;margin-top:12px}.row button{flex:1}
+.small{font-size:12px;color:#8790a8}.empty{text-align:center;padding:35px;color:#9aa4bd}
+.drawer{position:fixed;inset:0;background:#0009;z-index:20;display:none}.panel{margin:auto;max-width:600px;width:94%;max-height:88vh;overflow:auto;background:#101624;border:1px solid #303951;border-radius:20px;padding:20px}
+.paneltop{display:flex;justify-content:space-between;align-items:center}.item{display:flex;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #252d43}.item img{width:72px;height:48px;object-fit:cover;border-radius:8px}.danger{background:#6b2737}.wish{background:#3b315e}
+.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,120px);background:#171e31;border:1px solid #39435f;padding:12px 17px;border-radius:12px;z-index:50;transition:.25s}.toast.show{transform:translate(-50%,0)}
+footer{text-align:center;color:#737e99;padding:45px 20px}
+</style>
+</head>
+<body>
+<header><nav>
+<div class="logo">Youns <span>Games</span></div>
+<div class="actions">
+<button class="navbtn" onclick="openBox('wishlist')">⭐ أحلم بشرائها <b id="wcount">0</b></button>
+<button class="navbtn primary" onclick="openBox('cart')">🛒 السلة <b id="ccount">0</b></button>
+</div>
+</nav></header>
+
+<section class="hero">
+<div style="max-width:1200px;margin:auto">
+<h1>عالم الألعاب يبدأ من <span>Youns Games</span></h1>
+<p>متجر ألعاب PC بواجهة حقيقية للتصفح والبحث، مع سلة وقائمة ألعاب تتمنى شراءها لاحقًا. مكتبة ألعاب كبيرة للتصفح والبحث والتصنيف، مع قائمة أحلم بشرائها وسلة محفوظتين على جهازك. أزرار المتجر تفتح الصفحات الرسمية للألعاب.</p>
+</div>
+</section>
+
+<div class="search"><input id="search" placeholder="🔎 ابحث عن لعبة أو تصنيف..." oninput="render()"></div>
+<div class="search">
+<select id="sort" class="btn" onchange="render()" style="width:100%;padding:13px">
+<option value="default">ترتيب افتراضي</option>
+<option value="name">الاسم</option>
+<option value="priceLow">السعر: من الأقل</option>
+<option value="priceHigh">السعر: من الأعلى</option>
+</select>
+</div>
+<div class="tabs">
+<button class="navbtn primary" onclick="setCat('الكل')">الكل</button>
+<button class="navbtn" onclick="setCat('أكشن')">أكشن</button>
+<button class="navbtn" onclick="setCat('رعب')">رعب</button>
+<button class="navbtn" onclick="setCat('مغامرة')">مغامرة</button>
+<button class="navbtn" onclick="setCat('تعاوني')">تعاوني</button>
+<button class="navbtn" onclick="setCat('بقاء')">بقاء</button>
+<button class="navbtn" onclick="setCat('RPG')">RPG</button>
+<button class="navbtn" onclick="setCat('إندي')">إندي</button>
+<button class="navbtn" onclick="setCat('استراتيجية')">استراتيجية</button>
+<button class="navbtn" onclick="setCat('محاكاة')">محاكاة</button>
+<button class="navbtn" onclick="setCat('سباقات')">سباقات</button>
+<button class="navbtn" onclick="setCat('ألغاز')">ألغاز</button>
+</div>
+
+<main>
+<div class="sectiontitle"><h2>🎮 ألعاب PC</h2><span class="muted" id="countText"></span></div>
+<div id="grid" class="grid"></div>
+</main>
+
+<div id="drawer" class="drawer" onclick="if(event.target.id==='drawer')closeBox()">
+<div class="panel">
+<div class="paneltop"><h2 id="boxTitle"></h2><button class="navbtn" onclick="closeBox()">✕</button></div>
+<div id="boxBody"></div>
+</div></div>
+
+<div id="toast" class="toast"></div>
+<footer>© 2026 Youns Games — مكتبة ألعاب بروابط رسمية</footer>
+
+<script>
+const games=[
+{id:3241660,n:"R.E.P.O.",g:"رعب • تعاوني • أكشن",c:["رعب", "تعاوني", "أكشن"],p:9.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/3241660/header.jpg",url:"https://store.steampowered.com/app/3241660/"},
+{id:1111210,n:"The Backrooms Game FREE Edition",g:"رعب • بقاء",c:["رعب", "بقاء"],p:0,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1111210/header.jpg",url:"https://store.steampowered.com/app/1111210/"},
+{id:1943950,n:"Escape the Backrooms",g:"رعب • تعاوني",c:["رعب", "تعاوني"],p:9.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1943950/header.jpg",url:"https://store.steampowered.com/app/1943950/"},
+{id:990080,n:"Hogwarts Legacy",g:"أكشن • مغامرة • RPG",c:["أكشن", "مغامرة"],p:59.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/990080/header.jpg",url:"https://store.steampowered.com/app/990080/"},
+{id:1551360,n:"Forza Horizon 5",g:"سباقات • عالم مفتوح",c:["سباقات"],p:59.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/header.jpg",url:"https://store.steampowered.com/app/1551360/"},
+{id:413150,n:"Stardew Valley",g:"إندي • محاكاة • مغامرة",c:["إندي", "محاكاة", "مغامرة"],p:14.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/413150/header.jpg",url:"https://store.steampowered.com/app/413150/"},
+{id:620,n:"Portal 2",g:"ألغاز • مغامرة",c:["ألغاز", "مغامرة"],p:9.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/620/header.jpg",url:"https://store.steampowered.com/app/620/"},
+{id:105600,n:"Terraria",g:"إندي • بقاء • مغامرة",c:["إندي", "بقاء", "مغامرة"],p:9.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg",url:"https://store.steampowered.com/app/105600/"},
+{id:227300,n:"Euro Truck Simulator 2",g:"محاكاة • قيادة",c:["محاكاة"],p:19.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/227300/header.jpg",url:"https://store.steampowered.com/app/227300/"},
+{id:920210,n:"LEGO Star Wars: The Skywalker Saga",g:"أكشن • مغامرة",c:["أكشن", "مغامرة"],p:49.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/920210/header.jpg",url:"https://store.steampowered.com/app/920210/"},
+{id:1097150,n:"Fall Guys",g:"مجانية • جماعي",c:["تعاوني", "مغامرة"],p:0,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1097150/header.jpg",url:"https://store.steampowered.com/app/1097150/"},
+{id:252490,n:"Rust",g:"بقاء • جماعي",c:["بقاء", "أكشن", "تعاوني"],p:39.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/252490/header.jpg",url:"https://store.steampowered.com/app/252490/"},
+{id:322330,n:"Don't Starve Together",g:"إندي • بقاء • جماعي",c:["إندي", "بقاء", "تعاوني"],p:14.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/322330/header.jpg",url:"https://store.steampowered.com/app/322330/"},
+{id:730,n:"Counter-Strike 2",g:"تصويب • جماعي",c:["أكشن", "تعاوني"],p:0,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg",url:"https://store.steampowered.com/app/730/"},
+{id:570,n:"Dota 2",g:"استراتيجية • جماعي",c:["استراتيجية", "تعاوني"],p:0,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg",url:"https://store.steampowered.com/app/570/"},
+{id:578080,n:"PUBG: BATTLEGROUNDS",g:"أكشن • باتل رويال",c:["أكشن", "تعاوني"],p:0,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/578080/header.jpg",url:"https://store.steampowered.com/app/578080/"},
+{id:1172470,n:"Apex Legends",g:"تصويب • باتل رويال",c:["أكشن", "تعاوني"],p:0,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1172470/header.jpg",url:"https://store.steampowered.com/app/1172470/"},
+{id:1174180,n:"Red Dead Redemption 2",g:"أكشن • عالم مفتوح",c:["أكشن", "مغامرة"],p:59.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg",url:"https://store.steampowered.com/app/1174180/"},
+{id:292030,n:"The Witcher 3: Wild Hunt",g:"RPG • مغامرة",c:["RPG", "مغامرة"],p:39.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg",url:"https://store.steampowered.com/app/292030/"},
+{id:1245620,n:"Elden Ring",g:"أكشن • RPG",c:["أكشن", "RPG"],p:59.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg",url:"https://store.steampowered.com/app/1245620/"},
+{id:1091500,n:"Cyberpunk 2077",g:"RPG • عالم مفتوح",c:["RPG", "أكشن"],p:59.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg",url:"https://store.steampowered.com/app/1091500/"},
+{id:271590,n:"Grand Theft Auto V",g:"أكشن • عالم مفتوح",c:["أكشن", "مغامرة"],p:29.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg",url:"https://store.steampowered.com/app/271590/"},
+{id:814380,n:"Sekiro: Shadows Die Twice",g:"أكشن • مغامرة",c:["أكشن", "مغامرة"],p:59.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/814380/header.jpg",url:"https://store.steampowered.com/app/814380/"},
+{id:374320,n:"Dark Souls III",g:"أكشن • RPG",c:["أكشن", "RPG"],p:59.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/374320/header.jpg",url:"https://store.steampowered.com/app/374320/"},
+{id:236430,n:"Dark Souls II",g:"أكشن • RPG",c:["أكشن", "RPG"],p:39.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/236430/header.jpg",url:"https://store.steampowered.com/app/236430/"},
+{id:570940,n:"Dark Souls Remastered",g:"أكشن • RPG",c:["أكشن", "RPG"],p:39.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/570940/header.jpg",url:"https://store.steampowered.com/app/570940/"},
+{id:367520,n:"Hollow Knight",g:"إندي • مغامرة",c:["إندي", "مغامرة"],p:14.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/367520/header.jpg",url:"https://store.steampowered.com/app/367520/"},
+{id:1030300,n:"Hades",g:"أكشن • إندي • RPG",c:["أكشن", "إندي", "RPG"],p:24.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1030300/header.jpg",url:"https://store.steampowered.com/app/1030300/"},
+{id:1145360,n:"Hades II",g:"أكشن • إندي • RPG",c:["أكشن", "إندي", "RPG"],p:29.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1145360/header.jpg",url:"https://store.steampowered.com/app/1145360/"},
+{id:435150,n:"Divinity: Original Sin 2",g:"RPG • تعاوني",c:["RPG", "تعاوني"],p:44.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/435150/header.jpg",url:"https://store.steampowered.com/app/435150/"},
+{id:1086940,n:"Baldur's Gate 3",g:"RPG • مغامرة",c:["RPG", "مغامرة", "تعاوني"],p:59.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1086940/header.jpg",url:"https://store.steampowered.com/app/1086940/"},
+{id:892970,n:"Valheim",g:"بقاء • تعاوني",c:["بقاء", "تعاوني"],p:19.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/892970/header.jpg",url:"https://store.steampowered.com/app/892970/"},
+{id:346110,n:"ARK: Survival Evolved",g:"بقاء • عالم مفتوح",c:["بقاء", "تعاوني"],p:19.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/346110/header.jpg",url:"https://store.steampowered.com/app/346110/"},
+{id:648800,n:"Raft",g:"بقاء • تعاوني",c:["بقاء", "تعاوني"],p:19.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/648800/header.jpg",url:"https://store.steampowered.com/app/648800/"},
+{id:1172620,n:"Sea of Thieves",g:"مغامرة • تعاوني",c:["مغامرة", "تعاوني"],p:39.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1172620/header.jpg",url:"https://store.steampowered.com/app/1172620/"},
+{id:275850,n:"No Man's Sky",g:"استكشاف • بقاء",c:["استكشاف", "بقاء"],p:59.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/275850/header.jpg",url:"https://store.steampowered.com/app/275850/"},
+{id:526870,n:"Satisfactory",g:"محاكاة • بناء",c:["محاكاة", "إندي"],p:39.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/526870/header.jpg",url:"https://store.steampowered.com/app/526870/"},
+{id:255710,n:"Cities: Skylines",g:"محاكاة • بناء المدن",c:["محاكاة"],p:29.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/255710/header.jpg",url:"https://store.steampowered.com/app/255710/"},
+{id:394360,n:"Hearts of Iron IV",g:"استراتيجية • محاكاة",c:["استراتيجية", "محاكاة"],p:49.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/394360/header.jpg",url:"https://store.steampowered.com/app/394360/"},
+{id:236850,n:"Europa Universalis IV",g:"استراتيجية • محاكاة",c:["استراتيجية", "محاكاة"],p:39.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/236850/header.jpg",url:"https://store.steampowered.com/app/236850/"},
+{id:289070,n:"Sid Meier's Civilization VI",g:"استراتيجية",c:["استراتيجية"],p:59.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/289070/header.jpg",url:"https://store.steampowered.com/app/289070/"},
+{id:594570,n:"Total War: WARHAMMER II",g:"استراتيجية • RPG",c:["استراتيجية", "RPG"],p:59.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/594570/header.jpg",url:"https://store.steampowered.com/app/594570/"},
+{id:108600,n:"Project Zomboid",g:"بقاء • إندي",c:["بقاء", "إندي"],p:19.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/108600/header.jpg",url:"https://store.steampowered.com/app/108600/"},
+{id:211820,n:"Starbound",g:"مغامرة • بقاء",c:["مغامرة", "بقاء"],p:14.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/211820/header.jpg",url:"https://store.steampowered.com/app/211820/"},
+{id:268500,n:"XCOM 2",g:"استراتيجية • أكشن",c:["استراتيجية", "أكشن"],p:59.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/268500/header.jpg",url:"https://store.steampowered.com/app/268500/"},
+{id:289650,n:"Assassin's Creed Unity",g:"أكشن • مغامرة",c:["أكشن", "مغامرة"],p:29.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/289650/header.jpg",url:"https://store.steampowered.com/app/289650/"},
+{id:812140,n:"Assassin's Creed Odyssey",g:"أكشن • RPG",c:["أكشن", "RPG"],p:59.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/812140/header.jpg",url:"https://store.steampowered.com/app/812140/"},
+{id:582010,n:"Monster Hunter: World",g:"أكشن • تعاوني",c:["أكشن", "تعاوني"],p:29.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/582010/header.jpg",url:"https://store.steampowered.com/app/582010/"},
+{id:1240440,n:"Halo Infinite",g:"تصويب • جماعي",c:["أكشن", "تعاوني"],p:0,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1240440/header.jpg",url:"https://store.steampowered.com/app/1240440/"},
+{id:1938090,n:"Call of Duty®: Modern Warfare II",g:"تصويب • أكشن",c:["أكشن"],p:69.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1938090/header.jpg",url:"https://store.steampowered.com/app/1938090/"},
+{id:1085660,n:"Destiny 2",g:"تصويب • جماعي",c:["أكشن", "تعاوني"],p:0,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1085660/header.jpg",url:"https://store.steampowered.com/app/1085660/"},
+{id:230410,n:"Warframe",g:"أكشن • تعاوني",c:["أكشن", "تعاوني"],p:0,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/230410/header.jpg",url:"https://store.steampowered.com/app/230410/"},
+{id:440,n:"Team Fortress 2",g:"تصويب • جماعي",c:["أكشن", "تعاوني"],p:0,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/440/header.jpg",url:"https://store.steampowered.com/app/440/"},
+{id:252950,n:"Rocket League",g:"رياضة • سيارات",c:["سباقات", "تعاوني"],p:0,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/252950/header.jpg",url:"https://store.steampowered.com/app/252950/"},
+{id:431960,n:"Wallpaper Engine",g:"تخصيص • أدوات",c:["أدوات"],p:3.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/431960/header.jpg",url:"https://store.steampowered.com/app/431960/"},
+{id:359550,n:"Tom Clancy's Rainbow Six Siege",g:"تصويب • جماعي",c:["أكشن", "تعاوني"],p:19.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/359550/header.jpg",url:"https://store.steampowered.com/app/359550/"},
+{id:221100,n:"DayZ",g:"بقاء • جماعي",c:["بقاء", "تعاوني"],p:49.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/221100/header.jpg",url:"https://store.steampowered.com/app/221100/"},
+{id:444090,n:"Paladins",g:"تصويب • جماعي",c:["أكشن", "تعاوني"],p:0,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/444090/header.jpg",url:"https://store.steampowered.com/app/444090/"},
+{id:1817070,n:"Marvel's Spider-Man Remastered",g:"أكشن • مغامرة",c:["أكشن", "مغامرة"],p:59.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1817070/header.jpg",url:"https://store.steampowered.com/app/1817070/"},
+{id:1659040,n:"Hitman World of Assassination",g:"تخفي • أكشن",c:["أكشن", "مغامرة"],p:69.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1659040/header.jpg",url:"https://store.steampowered.com/app/1659040/"},
+{id:1222140,n:"Detroit: Become Human",g:"قصة • مغامرة",c:["مغامرة"],p:39.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1222140/header.jpg",url:"https://store.steampowered.com/app/1222140/"},
+{id:1190460,n:"Death Stranding",g:"مغامرة • قصة",c:["مغامرة"],p:39.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1190460/header.jpg",url:"https://store.steampowered.com/app/1190460/"},
+{id:739630,n:"Phasmophobia",g:"رعب • تعاوني",c:["رعب", "تعاوني"],p:19.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/739630/header.jpg",url:"https://store.steampowered.com/app/739630/"},
+{id:4000,n:"Garry's Mod",g:"ساندبوكس • جماعي",c:["إندي", "تعاوني"],p:9.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/4000/header.jpg",url:"https://store.steampowered.com/app/4000/"},
+{id:1158310,n:"Crusader Kings III",g:"استراتيجية • محاكاة",c:["استراتيجية", "محاكاة"],p:49.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1158310/header.jpg",url:"https://store.steampowered.com/app/1158310/"},
+{id:1794680,n:"Vampire Survivors",g:"إندي • أكشن",c:["إندي", "أكشن"],p:4.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1794680/header.jpg",url:"https://store.steampowered.com/app/1794680/"},
+{id:1326470,n:"Sons of the Forest",g:"رعب • بقاء • تعاوني",c:["رعب", "بقاء", "تعاوني"],p:29.99,img:"https://cdn.cloudflare.steamstatic.com/steam/apps/1326470/header.jpg",url:"https://store.steampowered.com/app/1326470/"}
+];
+let cat="الكل",cart=JSON.parse(localStorage.getItem("yg_cart")||"[]"),wish=JSON.parse(localStorage.getItem("yg_wish")||"[]");
+
+function setCat(x){cat=x;render()}
+function save(){localStorage.setItem("yg_cart",JSON.stringify(cart));localStorage.setItem("yg_wish",JSON.stringify(wish));updateCounts()}
+function updateCounts(){document.getElementById("ccount").textContent=cart.length;document.getElementById("wcount").textContent=wish.length}
+function toast(t){let x=document.getElementById("toast");x.textContent=t;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),1800)}
+function isWish(id){return wish.includes(id)}
+function render(){
+ let q=document.getElementById("search").value.toLowerCase().trim();
+ let list=games.filter(x=>(cat==="الكل"||x.c.includes(cat))&&(!q||(x.n+" "+x.g+" "+x.c.join(" ")).toLowerCase().includes(q)));
+ document.getElementById("countText").textContent=list.length+" ألعاب";
+ document.getElementById("grid").innerHTML=list.map(x=>`<article class="card">
+<div class="cover" style="background-image:url('${x.img}')"></div>
+<div class="info"><h3>${x.n}</h3><div class="muted">${x.g}</div><div style="margin-top:10px"><span class="price">${x.p===0?"مجانية":"$"+x.p.toFixed(2)}</span></div>
+<div class="row"><button class="btn primary" onclick="addCart(${x.id})">🛒 أضف للسلة</button><button class="btn wish" onclick="toggleWish(${x.id})">${isWish(x.id)?"★":"☆"} </button></div>
+<div class="row"><a class="btn" target="_blank" rel="noopener" href="${x.url}" style="text-align:center">صفحة المتجر الرسمي</a></div>
+</div></article>`).join("")||'<div class="empty">لا توجد ألعاب مطابقة لبحثك.</div>';
+updateCounts();
+}
+function addCart(id){if(!cart.includes(id)){cart.push(id);save();toast("تمت إضافة اللعبة للسلة ✓")}else toast("اللعبة موجودة في السلة")}
+function toggleWish(id){if(isWish(id))wish=wish.filter(x=>x!==id),toast("أزيلت من قائمة الأحلام");else wish.push(id),toast("أضيفت إلى أحلم بشرائها ⭐");save();render()}
+function openBox(type){
+ document.getElementById("drawer").style.display="flex";
+ document.getElementById("boxTitle").textContent=type==="cart"?"🛒 سلة الألعاب":"⭐ الألعاب التي أحلم بشرائها";
+ let ids=type==="cart"?cart:wish;
+ let list=ids.map(id=>games.find(g=>g.id===id)).filter(Boolean);
+ document.getElementById("boxBody").innerHTML=list.length?list.map(x=>`<div class="item"><img src="${x.img}"><div style="flex:1"><b>${x.n}</b><div class="muted">${x.p===0?"مجانية":"$"+x.p.toFixed(2)}</div></div><button class="btn danger" onclick="${type==="cart"?"removeCart":"removeWish"}(${x.id})">حذف</button></div>`).join(""):'<div class="empty">القائمة فارغة.</div>';
+ if(type==="cart"&&list.length){let total=list.reduce((s,x)=>s+x.p,0);document.getElementById("boxBody").innerHTML+=`<h3 style="margin-top:20px">المجموع: $${total.toFixed(2)}</h3><p class="small">الدفع الحقيقي يحتاج ربط حساب متجر/بوابة دفع باسم صاحب الحساب. من هنا يمكنك فتح صفحات الشراء الرسمية بأمان.</p>`}
+}
+function removeCart(id){cart=cart.filter(x=>x!==id);save();openBox("cart");render()}
+function removeWish(id){wish=wish.filter(x=>x!==id);save();openBox("wishlist");render()}
+function closeBox(){document.getElementById("drawer").style.display="none"}
+render();
+</script>
+</body></html>
